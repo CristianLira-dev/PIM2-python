@@ -16,7 +16,7 @@ class Pet:
         self.porte = porte
         self.adotado = adotado
 
-#função que transforma o objeto em um json 
+#função que transforma o objeto em um json
     def to_json(self):
         return {
             "nome": self.nome,
@@ -25,7 +25,7 @@ class Pet:
             "porte": self.porte,
             "adotado": self.adotado
         }
-    
+
 #verifica se o arquivo já existe
 if not os.path.exists(arquivo):
 #abre o arquivo com o nome "pets.json" e coloca as informações que estão dentro do array pets
@@ -53,7 +53,7 @@ Raça: {pet["raca"]}
 Porte: {pet["porte"]}
 Adotado: {status}
 """)
-        
+
 # FUNÇÃO PARA CADASTRAR PET
 def cadastrar_pet():
 
@@ -105,6 +105,3 @@ if opcao == "1":
 
 elif opcao == "2":
     listar_pets()
-
-else:
-    print("\nOpção inválida.")
