@@ -1,28 +1,38 @@
 import Cadastro
+import Banco_De_Dados
+import json
 
 # MENU DO SISTEMA
-print("""
-----------------------------------
- SISTEMA DE GERENCIAMENTO DE PETS
-----------------------------------
+while True:
+    print("""
+    ----------------------------------
+     SISTEMA DE GERENCIAMENTO DE PETS
+    ----------------------------------
+    
+    Selecione uma das opções abaixo:
+    
+    1 - Cadastrar Pet
+    2 - Listar Pets Cadastrados
+    3 - Sair
+          
+    """)
 
-Selecione uma das opções abaixo:
 
-1 - Cadastrar Pet
-2 - Listar Pets Cadastrados
-      
-""")
+    opcao = input("Digite a opção desejada: ")
 
 
-opcao = input("Digite a opção desejada: ")
+    if opcao == "1":
+        #cria o objeto com base no retorno da classe cadastro
+        pet = Cadastro.cadastro()
+        #armazena o pet no banco de dados
+        Banco_De_Dados.armazenar_pets(pet.to_json())
 
 
-if opcao == "1":
-    #cria o objeto com base no retorno da classe cadastro
-    pet = Cadastro.cadastro()
+    elif opcao == "2":
+        Banco_De_Dados.listar_pets()
 
-elif opcao == "2":
-    listar_pets()
+    elif opcao == "3":
+        break
 
-else:
-    print("\nOpção inválida.")
+    else:
+        print("\nOpção inválida.")
