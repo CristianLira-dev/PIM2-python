@@ -1,6 +1,5 @@
 import Cadastro
 import Banco_De_Dados
-import json
 
 # MENU DO SISTEMA
 while True:
@@ -26,6 +25,7 @@ while True:
         pet = Cadastro.cadastro()
         #armazena o pet no banco de dados
         Banco_De_Dados.armazenar_pets(pet.to_json())
+        Banco_De_Dados.salvar_pets()
 
 
     elif opcao == "2":
