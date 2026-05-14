@@ -1,5 +1,4 @@
 import Cadastro
-from Pet import pet
 
 # MENU DO SISTEMA
 print("""
@@ -19,10 +18,8 @@ opcao = input("Digite a opção desejada: ")
 
 
 if opcao == "1":
-    dicionario_de_cadastro = Cadastro.cadastro()
-    pet = pet(dicionario_de_cadastro.get("nome"), dicionario_de_cadastro.get("idade"),
-              dicionario_de_cadastro.get("raca"), dicionario_de_cadastro.get("porte"))
-    print(pet.nome, pet.idade, pet.raca, pet.porte)
+    #cria o objeto com base no retorno da classe cadastro
+    pet = Cadastro.cadastro()
 
 elif opcao == "2":
     listar_pets()
