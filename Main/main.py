@@ -25,6 +25,7 @@ while True:
         pet = Cadastro.cadastro()
         #armazena o pet no banco de dados
         Banco_De_Dados.armazenar_pets(pet.to_json())
+        #salva o banco de dados em um arquivo JSON
         Banco_De_Dados.salvar_pets()
 
 
