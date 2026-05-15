@@ -1,5 +1,6 @@
 # funcao responsavel por criar o cadastro de pets
 def cadastro():
+
     from Pet import Pet
 
     nome = input("\nDigite o nome do pet: ")
@@ -29,7 +30,31 @@ def cadastro():
 
     raca = input("Digite a raça do pet: ")
 
-    porte = input("Digite o porte do pet: ")
+    # SELETOR DE PORTE
+
+    print("""
+    Selecione o porte do pet:
+
+    [1] Pequeno
+    [2] Médio
+    [3] Grande
+    """)
+
+    opcao = input("Digite a opção desejada: ")
+
+    while opcao not in ["1", "2", "3"]:
+        print("DIGITE APENAS 1, 2 OU 3")
+        opcao = input("Digite a opção desejada: ")
+
+    portes = {
+        "1": "Pequeno",
+        "2": "Médio",
+        "3": "Grande"
+    }
+
+    porte = portes[opcao]
+
+    print("\nCadastro concluído com sucesso!")
 
     pet = Pet(nome, idade, raca, porte)
 
