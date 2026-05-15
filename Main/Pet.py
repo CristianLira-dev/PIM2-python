@@ -1,4 +1,4 @@
-class pet:
+class Pet:
     def __init__(self, nome, idade, raca, porte, adotado=False):
         self.nome = nome
         self.idade = idade
