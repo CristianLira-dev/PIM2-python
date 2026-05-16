@@ -1,6 +1,8 @@
 import Cadastro
 import Banco_De_Dados
 
+Banco_De_Dados.carregar_pets()
+
 # MENU DO SISTEMA
 while True:
     print("""
