@@ -1,4 +1,5 @@
 import json
+import os
 
 pets = []
 
@@ -36,3 +37,14 @@ def listar_pets():
 def salvar_pets():
     with open("pets.json", "w") as arquivo:
         json.dump(pets, arquivo, indent=4)
+
+def carregar_pets():
+    if os.path.exists("pets.json"):
+        try:
+            with open("pets.json", "r") as arquivo:
+                dados_temporarios = json.load(arquivo)
+
+                pets.clear()
+                pets.extend(dados_temporarios)
+        except :
+            pets.clear()
