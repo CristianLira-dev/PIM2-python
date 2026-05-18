@@ -12,6 +12,107 @@ def validar_banco_de_dados():
             return
         else:
             return
+def escolha_do_pet():
+    contador = 1
+    for pet in Banco_De_Dados.pets:
+        print(f"[{contador}] Pet: {pet['nome']}")
+        contador += 1
+
+    opcao = input("\nDigite o número do pet: ")
+
+    while True:
+        if opcao.isnumeric() == False:
+            print("DIGITE APENAS NÚMEROS")
+            opcao = input("Digite o número do pet: ")
+            continue
+        else:
+            break
+
+    return int(opcao)
+def escolha_dos_dados(opcao):
+    print(f"""
+            ╔══════════════════════════════╗
+                    PET {opcao}
+            ╠══════════════════════════════╣
+              1 - Nome     : {Banco_De_Dados.pets[opcao - 1]["nome"]}
+              2 - Idade    : {Banco_De_Dados.pets[opcao - 1]["idade"]}
+              3 - Raça     : {Banco_De_Dados.pets[opcao - 1]["raca"]}
+              4 - Porte    : {Banco_De_Dados.pets[opcao - 1]["porte"]}
+              5 - Adotado  : {Banco_De_Dados.pets[opcao - 1]["adotado"]}
+            ╚══════════════════════════════╝
+            """)
+    escolha = input("Qual campo deseja editar? (1, 2, 3, 4, 5) ")
+    while not escolha.isnumeric() or int(escolha) not in (1, 2, 3, 4, 5):
+        print("DIGITE APENAS NÚMEROS DE 1 A 5!")
+        escolha = input("Qual campo deseja editar? (1, 2, 3, 4, 5) ")
+
+    return int(escolha)
+def editar_nomes(opcao):
+    novo_nome = input("Digite o nome do pet: ")
+    Banco_De_Dados.pets[opcao - 1]["nome"] = novo_nome
+    print("NOME ATUALIZADO COM SUCESSO!")
+def editar_idade(opcao):
+    mesORano = input("O pet tem meses ou anos de vida? (M/A): ").strip().upper()
+
+    while mesORano not in ["M", "A"]:
+        print("DIGITE APENAS M OU A")
+        mesORano = input("O pet tem meses ou anos de vida? (M/A): ").strip().upper()
+
+    if mesORano == "M":
+        abreviacao = "meses"
+    else:
+        abreviacao = "anos"
+
+    idadeNum = input("Digite a idade do pet (Digite apenas os números): ")
+
+    while idadeNum.isnumeric() == False:
+        print("DIGITE APENAS NUMEROS")
+        idadeNum = input("Digite a idade do pet: ")
+
+    while mesORano == "M" and int(idadeNum) > 11:
+        print("UM PET COM MAIS DE 11 MESES DEVE SER CADASTRADO COM ANOS")
+        idadeNum = input("Digite a idade do pet (Digite apenas os números): ")
+
+    nova_idade = f"{idadeNum} {abreviacao}"
+    Banco_De_Dados.pets[opcao - 1]["idade"] = nova_idade
+
+    print("IDADE ATUALIZADA COM SUCESSO!")
+def editar_raca(opcao):
+    nova_raca = input("Digite a raça do pet: ")
+    Banco_De_Dados.pets[opcao - 1]["raca"] = nova_raca
+    print("RAÇA ATUALIZADA COM SUCESSO!")
+def editar_porte(opcao):
+    print("""
+                    Selecione o porte do pet:
+
+                    [1] Pequeno
+                    [2] Médio
+                    [3] Grande
+                    """)
+
+    escolha = input("Digite a opção desejada: ")
+    while escolha not in ["1", "2", "3"]:
+        print("DIGITE APENAS 1, 2 OU 3")
+        escolha = input("Digite a opção desejada: ")
+
+    portes = {
+        "1": "Pequeno",
+        "2": "Médio",
+        "3": "Grande"
+    }
+
+    novo_porte = portes[escolha]
+    Banco_De_Dados.pets[opcao - 1]["porte"] = novo_porte
+    print("PORTE ATUALIZADO COM SUCESSO!")
+def editar_status_adocao(opcao):
+    resposta_do_usuario = input("Deseja alterar o status do pet para adotado? [S/N]").upper()
+    while resposta_do_usuario not in ["S", "SIM", "N", "NAO"]:
+        print("DIGITE APENAS S OU N")
+        resposta_do_usuario = ("Deseja alterar o status do pet para adotado? [S/N]").upper()
+
+    if resposta_do_usuario == "S" or resposta_do_usuario == "SIM":
+        Banco_De_Dados.pets[opcao - 1]["adotado"] = True
+        print("PET ADOTADO!")
 
 def editar_dados():
 
@@ -22,22 +123,7 @@ def editar_dados():
 
         print("\nSelecione o pet que deseja editar:\n")
 
-        contador = 1
-
-        # lista os pets
-        for pet in Banco_De_Dados.pets:
-            print(f"[{contador}] Pet: {pet['nome']}")
-            contador += 1
-
-        opcao = input("\nDigite o número do pet: ")
-
-        while True:
-            if opcao.isnumeric() == False:
-                print("DIGITE APENAS NÚMEROS")
-                opcao = input("Digite o número do pet: ")
-                continue
-            else:
-                break
+        opcao = escolha_do_pet()
 
         opcao = int(opcao)
         if opcao < 1 or opcao > len(Banco_De_Dados.pets):
@@ -50,90 +136,19 @@ def editar_dados():
 
     resposta_do_usuario = "S"
     while resposta_do_usuario == "S" or resposta_do_usuario == "SIM":
-        escolha = 0
-        print(f"""
-        ╔══════════════════════════════╗
-                PET {opcao}
-        ╠══════════════════════════════╣
-          1 - Nome     : {Banco_De_Dados.pets[opcao - 1]["nome"]}
-          2 - Idade    : {Banco_De_Dados.pets[opcao - 1]["idade"]}
-          3 - Raça     : {Banco_De_Dados.pets[opcao - 1]["raca"]}
-          4 - Porte    : {Banco_De_Dados.pets[opcao - 1]["porte"]}
-          5 - Adotado  : {Banco_De_Dados.pets[opcao - 1]["adotado"]}
-        ╚══════════════════════════════╝
-        """)
-        escolha = input("Qual campo deseja editar? (1, 2, 3, 4, 5) ")
-        while not escolha.isnumeric() or int(escolha) not in (1, 2, 3, 4, 5):
-            print("DIGITE APENAS NÚMEROS DE 1 A 5!")
-            escolha = input("Qual campo deseja editar? (1, 2, 3, 4, 5) ")
 
-        escolha = int(escolha)
+        escolha = escolha_dos_dados(opcao)
+
         if escolha == 1:
-            novo_nome = input("Digite o nome do pet: ")
-            Banco_De_Dados.pets[opcao - 1]["nome"] = novo_nome
-            print("NOME ATUALIZADO COM SUCESSO!")
+            editar_nomes(opcao)
         elif escolha == 2:
-            mesORano = input("O pet tem meses ou anos de vida? (M/A): ").strip().upper()
-
-            while mesORano not in ["M", "A"]:
-                print("DIGITE APENAS M OU A")
-                mesORano = input("O pet tem meses ou anos de vida? (M/A): ").strip().upper()
-
-            if mesORano == "M":
-                abreviacao = "meses"
-            else:
-                abreviacao = "anos"
-
-            idadeNum = input("Digite a idade do pet (Digite apenas os números): ")
-
-            while idadeNum.isnumeric() == False:
-                print("DIGITE APENAS NUMEROS")
-                idadeNum = input("Digite a idade do pet: ")
-
-            while mesORano == "M" and int(idadeNum) > 11:
-                print("UM PET COM MAIS DE 11 MESES DEVE SER CADASTRADO COM ANOS")
-                idadeNum = input("Digite a idade do pet (Digite apenas os números): ")
-
-            nova_idade = f"{idadeNum} {abreviacao}"
-            Banco_De_Dados.pets[opcao - 1]["idade"] = nova_idade
-
-            print("IDADE ATUALIZADA COM SUCESSO!")
+            editar_idade(opcao)
         elif escolha == 3:
-            nova_raca = input("Digite a raça do pet: ")
-            Banco_De_Dados.pets[opcao - 1]["raca"] = nova_raca
-            print("RAÇA ATUALIZADA COM SUCESSO!")
+            editar_raca(opcao)
         elif escolha == 4:
-            print("""
-                Selecione o porte do pet:
-    
-                [1] Pequeno
-                [2] Médio
-                [3] Grande
-                """)
-
-            escolha = input("Digite a opção desejada: ")
-            while escolha not in ["1", "2", "3"]:
-                print("DIGITE APENAS 1, 2 OU 3")
-                escolha = input("Digite a opção desejada: ")
-
-            portes = {
-                "1": "Pequeno",
-                "2": "Médio",
-                "3": "Grande"
-            }
-
-            novo_porte = portes[escolha]
-            Banco_De_Dados.pets[opcao - 1]["porte"] = novo_porte
-            print("PORTE ATUALIZADO COM SUCESSO!")
+            editar_porte(opcao)
         elif escolha == 5:
-            resposta_do_usuario = input("Deseja alterar o status do pet para adotado? [S/N]").upper()
-            while resposta_do_usuario not in ["S", "SIM", "N", "NAO"]:
-                print("DIGITE APENAS S OU N")
-                resposta_do_usuario = ("Deseja alterar o status do pet para adotado? [S/N]").upper()
-
-            if resposta_do_usuario == "S" or resposta_do_usuario == "SIM":
-                Banco_De_Dados.pets[opcao - 1]["adotado"] = True
-                print("PET ADOTADO!")
+            editar_status_adocao(opcao)
 
 
         resposta_do_usuario = input("Deseja editar outro dado do pet? [S/N]").upper()
