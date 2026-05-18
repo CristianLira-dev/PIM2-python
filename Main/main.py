@@ -1,6 +1,7 @@
 import Cadastro
 import Banco_De_Dados
 import Excluir_Pet
+import Editar_Dados
 
 Banco_De_Dados.carregar_pets()
 
@@ -15,8 +16,9 @@ while True:
     
     1 - Cadastrar Pet
     2 - Listar Pets Cadastrados
-    3 - Excluir Pet
-    4 - Sair
+    3-  Editar Dados
+    4 - Excluir Pet
+    5 - Sair
           
     """)
 
@@ -37,9 +39,12 @@ while True:
         Banco_De_Dados.listar_pets()
 
     elif opcao == "3":
-        Excluir_Pet.excluir_pet()
+        Editar_Dados.editar_dados()
 
     elif opcao == "4":
+        Excluir_Pet.excluir_pet()
+
+    elif opcao == "5":
         break
 
     else:
