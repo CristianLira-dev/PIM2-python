@@ -116,31 +116,25 @@ def editar_porte(opcao):
     Banco_De_Dados.pets[opcao - 1]["porte"] = novo_porte
     print("PORTE ATUALIZADO COM SUCESSO!")
 def editar_status_adocao(opcao):
-    if Banco_De_Dados.pets[opcao - 1]["adotado"] == "Não":
+    pet = Banco_De_Dados.pets[opcao - 1]
 
-        resposta_do_usuario = input("Deseja alterar o status do pet para adotado? [S/N]").upper()
-        while resposta_do_usuario not in ["S", "SIM", "N", "NAO"]:
-            print("DIGITE APENAS S OU N")
-            resposta_do_usuario = ("Deseja alterar o status do pet para adotado? [S/N]").upper()
+    while True:
+        resposta = input("Deseja alterar o status do pet? [S/N] ").upper()
 
-        if resposta_do_usuario == "S" or resposta_do_usuario == "SIM":
-            Banco_De_Dados.pets[opcao - 1]["adotado"] = "Sim"
+        if resposta in ["S", "SIM", "N", "NAO"]:
+            break
+
+        print("DIGITE APENAS S OU N")
+
+    if resposta in ["S", "SIM"]:
+
+        if pet["adotado"] == "Não":
+            pet["adotado"] = "Sim"
             print("PET ADOTADO!")
+
         else:
-            Banco_De_Dados.pets[opcao - 1]["adotado"] = "Não"
-    elif Banco_De_Dados.pets[opcao - 1]["adotado"] == "Sim":
-
-        resposta_do_usuario = input("Deseja remover o status de adotado? [S/N]").upper()
-        while resposta_do_usuario not in ["S", "SIM", "N", "NAO"]:
-            print("DIGITE APENAS S OU N")
-            resposta_do_usuario = ("Deseja alterar o status do pet para adotado? [S/N]").upper()
-
-        if resposta_do_usuario == "S" or resposta_do_usuario == "SIM":
-            Banco_De_Dados.pets[opcao - 1]["adotado"] = "Não"
-            print("ADOTADO REMOVIDO!")
-        else:
-            Banco_De_Dados.pets[opcao - 1]["adotado"] = "Sim"
-
+            pet["adotado"] = "Não"
+            print("ADOÇÃO REMOVIDA!")
 
 
 def editar_dados():
