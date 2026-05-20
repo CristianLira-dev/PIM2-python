@@ -16,7 +16,7 @@ while True:
     
     1 - Cadastrar Pet
     2 - Listar Pets Cadastrados
-    3-  Editar Dados
+    3 - Editar Dados
     4 - Excluir Pet
     5 - Sair
           

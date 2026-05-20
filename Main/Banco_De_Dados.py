@@ -14,7 +14,13 @@ def listar_pets():
 
         for pet in pets:
 
-            adotado = "Sim" if pet["adotado"] else "Não"
+            adotado = pet["adotado"]
+            if adotado == False or adotado == "Não":
+                adotado = "Não"
+            elif adotado == True or adotado == "Sim":
+                adotado = "Sim"
+
+
 
             print(f"""
 ╔══════════════════════════════╗

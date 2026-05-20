@@ -5,6 +5,11 @@ def validar_banco_de_dados():
     if len(Banco_De_Dados.pets) == 0:
         print("\nAINDA NÃO EXISTEM PETS CADASTRADOS")
         resposta = input("Deseja cadastrar um pet? [S/N]").upper()
+
+        while resposta not in ["S", "SIM", "N", "NAO"]:
+            print("DIGITE APENAS S OU N")
+            resposta = input("Deseja cadastrar um pet? [S/N]").upper()
+
         if resposta == "S" or resposta == "SIM":
             pet = Cadastro.cadastro()
             Banco_De_Dados.armazenar_pets(pet.to_json())
@@ -30,6 +35,12 @@ def escolha_do_pet():
 
     return int(opcao)
 def escolha_dos_dados(opcao):
+
+    if Banco_De_Dados.pets[opcao - 1]["adotado"] == "Sim":
+        Banco_De_Dados.pets[opcao - 1]["adotado"] = "Sim"
+    else:
+        Banco_De_Dados.pets[opcao - 1]["adotado"] = "Não"
+
     print(f"""
             ╔══════════════════════════════╗
                     PET {opcao}
@@ -105,14 +116,26 @@ def editar_porte(opcao):
     Banco_De_Dados.pets[opcao - 1]["porte"] = novo_porte
     print("PORTE ATUALIZADO COM SUCESSO!")
 def editar_status_adocao(opcao):
-    resposta_do_usuario = input("Deseja alterar o status do pet para adotado? [S/N]").upper()
-    while resposta_do_usuario not in ["S", "SIM", "N", "NAO"]:
-        print("DIGITE APENAS S OU N")
-        resposta_do_usuario = ("Deseja alterar o status do pet para adotado? [S/N]").upper()
+    pet = Banco_De_Dados.pets[opcao - 1]
 
-    if resposta_do_usuario == "S" or resposta_do_usuario == "SIM":
-        Banco_De_Dados.pets[opcao - 1]["adotado"] = True
-        print("PET ADOTADO!")
+    while True:
+        resposta = input("Deseja alterar o status do pet? [S/N] ").upper()
+
+        if resposta in ["S", "SIM", "N", "NAO"]:
+            break
+
+        print("DIGITE APENAS S OU N")
+
+    if resposta in ["S", "SIM"]:
+
+        if pet["adotado"] == "Não":
+            pet["adotado"] = "Sim"
+            print("PET ADOTADO!")
+
+        else:
+            pet["adotado"] = "Não"
+            print("ADOÇÃO REMOVIDA!")
+
 
 def editar_dados():
 
@@ -149,7 +172,6 @@ def editar_dados():
             editar_porte(opcao)
         elif escolha == 5:
             editar_status_adocao(opcao)
-
 
         resposta_do_usuario = input("Deseja editar outro dado do pet? [S/N]").upper()
         while resposta_do_usuario not in ["S", "SIM", "N", "NAO"]:
