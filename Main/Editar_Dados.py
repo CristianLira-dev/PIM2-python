@@ -28,6 +28,7 @@ def validar_banco_de_dados():
 
         if resposta in ["S", "SIM"]:
 
+
             pet = Cadastro.cadastro()
 
             Banco_De_Dados.armazenar_pets(
@@ -94,7 +95,6 @@ def escolha_dos_dados(opcao):
         if pet.get("adotado")
         else "Não"
     )
-
 
     print(f"""
 ╔══════════════════════════════╗
@@ -280,6 +280,7 @@ def editar_porte(opcao):
         "2": "Médio",
         "3": "Grande"
     }
+
 
 
     novo_porte = portes[escolha]

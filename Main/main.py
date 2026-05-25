@@ -13,6 +13,7 @@ Banco_De_Dados.carregar_adotantes()
 while True:
 
     print("""
+
 ----------------------------------
  SISTEMA DE ADOÇÃO INTELIGENTE
 ----------------------------------
