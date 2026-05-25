@@ -137,6 +137,11 @@ def recomendar_pet():
         score = item["score"]
         motivos = item["motivos"]
 
+        if {pet['sociavel_criancas']}:
+            criancas = "Sim"
+        else:
+            criancas = "Não"
+
         selo = gerar_selo(score)
 
         print(f"""
@@ -146,8 +151,12 @@ PET: {pet['nome']}
 Compatibilidade: {score}%
 {selo}
 
+Idade: {pet['idade']}
+Raça: {pet['raca']}
 Porte: {pet['porte']}
 Energia: {pet['energia']}
+Sociável c/ crianças: {criancas}
+
 
 Motivos:
 """)
