@@ -2,49 +2,103 @@ import json
 import os
 
 pets = []
+adotantes = []
 
-# Armazena os pets em um Array
+
 def armazenar_pets(pet):
     pets.append(pet)
 
-# Lista os pets cadastrados
+
+def armazenar_adotante(adotante):
+    adotantes.append(adotante)
+
+
 def listar_pets():
-    if len(pets) != 0:
-        contador = 1
 
-        for pet in pets:
+    if len(pets) == 0:
+        print("AINDA NÃO EXISTEM PETS CADASTRADOS")
+        return
 
-            adotado = "Sim" if pet["adotado"] else "Não"
+    contador = 1
 
-            print(f"""
+    for pet in pets:
+
+        adotado = "Sim" if pet["adotado"] else "Não"
+        criancas = "Sim" if pet["sociavel_criancas"] else "Não"
+
+        print(f"""
 ╔══════════════════════════════╗
-        PET {contador}
+            PET {contador}
 ╠══════════════════════════════╣
-  Nome     : {pet["nome"]}
-  Idade    : {pet["idade"]}
-  Raça     : {pet["raca"]}
-  Porte    : {pet["porte"]}
-  Adotado  : {adotado}
+ Nome        : {pet['nome']}
+ Idade       : {pet['idade']}
+ Raça        : {pet['raca']}
+ Porte       : {pet['porte']}
+ Energia     : {pet['energia']}
+ Crianças    : {criancas}
+ Adotado     : {adotado}
 ╚══════════════════════════════╝
 """)
 
-            contador += 1
+        contador += 1
 
-    else:
-        print("AINDA NÃO EXISTEM PETS CADASTRADOS")
 
-# Salva Array em um arquivo JSON
+def listar_adotantes():
+
+    if len(adotantes) == 0:
+        print("AINDA NÃO EXISTEM ADOTANTES CADASTRADOS")
+        return
+
+    contador = 1
+
+    for adotante in adotantes:
+
+        print(f"[{contador}] {adotante['nome']}")
+
+        contador += 1
+
+
 def salvar_pets():
-    with open("pets.json", "w") as arquivo:
-        json.dump(pets, arquivo, indent=4)
+
+    with open("pets.json", "w", encoding="utf-8") as arquivo:
+        json.dump(pets, arquivo, indent=4, ensure_ascii=False)
+
 
 def carregar_pets():
+
     if os.path.exists("pets.json"):
+
         try:
-            with open("pets.json", "r") as arquivo:
-                dados_temporarios = json.load(arquivo)
+
+            with open("pets.json", "r", encoding="utf-8") as arquivo:
+
+                dados = json.load(arquivo)
 
                 pets.clear()
-                pets.extend(dados_temporarios)
-        except :
+                pets.extend(dados)
+
+        except:
             pets.clear()
+
+
+def salvar_adotantes():
+
+    with open("adotantes.json", "w", encoding="utf-8") as arquivo:
+        json.dump(adotantes, arquivo, indent=4, ensure_ascii=False)
+
+
+def carregar_adotantes():
+
+    if os.path.exists("adotantes.json"):
+
+        try:
+
+            with open("adotantes.json", "r", encoding="utf-8") as arquivo:
+
+                dados = json.load(arquivo)
+
+                adotantes.clear()
+                adotantes.extend(dados)
+
+        except:
+            adotantes.clear()
