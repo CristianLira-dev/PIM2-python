@@ -2,117 +2,125 @@ import Recomendacao
 import Banco_De_Dados
 
 def testar_compatibilidade():
-    if len(Banco_De_Dados.adotantes) == 0:
-        print("AINDA NÃO EXISTEM ADOTANTES CADASTRADOS")
-        return
+    
+    if not Banco_De_Dados.adotantes:
+        print("\n❌ AINDA NÃO EXISTEM ADOTANTES CADASTRADOS.")
+        return None, None
 
-    if len(Banco_De_Dados.pets) == 0:
-        print("AINDA NÃO EXISTEM PETS CADASTRADOS")
-        return
+    if not Banco_De_Dados.pets:
+        print("\n❌ AINDA NÃO EXISTEM PETS CADASTRADOS.")
+        return None, None
 
-
-    print("\nSELECIONE O ADOTANTE:\n")
-
-
+    
+    print("\n" + "="*30)
+    print("      SELECIONE O ADOTANTE      ")
+    print("="*30)
     contador = 1
-
     for adotante in Banco_De_Dados.adotantes:
-
-        print(f"[{contador}] {adotante['nome']}")
-
+        print(f"{contador}. {adotante['nome']}")
         contador += 1
+    print("="*30)
 
-
-    opcao = input("\nDigite a opção desejada: ")
-
-
-    while not opcao.isnumeric():
-
-        print("DIGITE APENAS NÚMEROS")
-
-        opcao = input("Digite a opção desejada: ")
-
-
-    opcao = int(opcao)
-
-
-    if opcao < 1 or opcao > len(Banco_De_Dados.adotantes):
-
-        print("ADOTANTE NÃO ENCONTRADO")
-        return
-
+    
+    while True:
+        opcao = input("\nDigite o número do adotante desejado: ").strip()
+        if opcao.isdigit():
+            opcao = int(opcao)
+            if 1 <= opcao <= len(Banco_De_Dados.adotantes):
+                break
+        print("⚠️ OPÇÃO INVÁLIDA! Por favor, escolha um número da lista.")
 
     adotante = Banco_De_Dados.adotantes[opcao - 1]
-
     ranking = []
 
-
+    
     for pet in Banco_De_Dados.pets:
-
-        if pet["adotado"]:
+        if pet.get("adotado", False):
             continue
 
-
         score, motivos = Recomendacao.calcular_score(adotante, pet)
-
         ranking.append({
             "pet": pet,
             "score": score,
             "motivos": motivos
         })
 
-
-    ranking.sort(
-        key=lambda item: item["score"],
-        reverse=True
-    )
-
-
-    top3 = ranking[:3]
-    return top3, adotante
+    
+    ranking.sort(key=lambda item: item["score"], reverse=True)
+    
+    
+    return ranking[:3], adotante
 
 
 def listar_pets_compativeis():
-
     top3, adotante = testar_compatibilidade()
+    
+    
+    if not top3:
+        return None, None
 
-    print(f"\n3 PETS MAIS COMPATÍVEIS PARA {adotante['nome']}\n")
+    print("\n" + "="*50)
+    print(f"🐾 3 PETS MAIS COMPATÍVEIS PARA: {adotante['nome'].upper()} 🐾")
+    print("="*50)
 
-    contador = 1
-    for item in top3:
+    if not top3:
+        print("Nenhum pet disponível para recomendação no momento.")
+        return top3, adotante
 
+    for i, item in enumerate(top3, 1):
         pet = item["pet"]
         score = item["score"]
         motivos = item["motivos"]
         selo = Recomendacao.gerar_selo(score)
 
-
-        print(f"{contador}. Nome: {pet['nome']}, Compatibilidade: {score:.2f}%, Selo: {selo} - Motivos: {', '.join(motivos)}")
-        contador += 1
+        print(f"{i}️⃣  {pet['nome']}")
+        print(f"   📊 Compatibilidade: {score:.1f}% | Selo: {selo}")
+        print(f"   💡 Motivos: {', '.join(motivos)}")
+        print("-" * 50)
+        
     return adotante, top3
 
 
 def adotar_por_recomendacao():
-    pet_nome = []
-
     adotante, top3 = listar_pets_compativeis()
-
-    pet_escolhido = int(input("\nDIGITE O NUMERO DO PET QUE DESEJA ADOTAR (OU '-1' PARA VOLTAR): "))
-
-    if pet_escolhido == -1:
-        print("OPERAÇÃO CANCELADA.")
-        return
-    elif pet_escolhido < 1 or pet_escolhido > len(top3):
-        print("PET INVÁLIDO. OPERAÇÃO CANCELADA.")
-        return
     
-    top3[pet_escolhido - 1]["pet"]["adotado"] = True
-    top3[pet_escolhido - 1]["pet"]["adotante"] = adotante["nome"]
     
-    pet_nome.append(top3[pet_escolhido - 1]["pet"]["nome"])
-    adotante["pets_adotados"] = pet_nome
+    if not adotante or not top3:
+        return
 
-    print(f"\nPARABÉNS {adotante['nome']}! VOCÊ ADOTOU O PET {pet_nome} POR RECOMENDAÇÃO!")
+    while True:
+        try:
+            entrada = input("\n👉 Digite o NÚMERO do pet para adotar (ou '-1' para VOLTAR): ").strip()
+            pet_escolhido = int(entrada)
+            
+            if pet_escolhido == -1:
+                print("\n❌ OPERAÇÃO CANCELADA PELO USUÁRIO.")
+                return
+                
+            if 1 <= pet_escolhido <= len(top3):
+                break
+            
+            print(f"⚠️ Número inválido. Escolha entre 1 e {len(top3)} (ou -1 para voltar).")
+        except ValueError:
+            print("⚠️ Entrada inválida! Digite apenas números.")
 
+    
+    item_selecionado = top3[pet_escolhido - 1]
+    pet = item_selecionado["pet"]
+
+    
+    pet["adotado"] = True
+    pet["adotante"] = adotante["nome"]
+    
+    
+    if "pets_adotados" not in adotante or not isinstance(adotante["pets_adotados"], list):
+        adotante["pets_adotados"] = []
+    adotante["pets_adotados"].append(pet["nome"])
+
+
+    print(f" 🎉 PARABÉNS, {adotante['nome'].upper()}!")
+    print(f" Você acabou de adotar o(a) {pet['nome']} por recomendação! ❤️")
+
+    
     Banco_De_Dados.salvar_pets()
     Banco_De_Dados.salvar_adotantes()
