@@ -56,12 +56,12 @@ def calcular_score(adotante, pet):
     return score, motivos
 
 
+
 def recomendar_pet():
 
     if len(Banco_De_Dados.adotantes) == 0:
         print("AINDA NÃO EXISTEM ADOTANTES CADASTRADOS")
         return
-
 
     if len(Banco_De_Dados.pets) == 0:
         print("AINDA NÃO EXISTEM PETS CADASTRADOS")
@@ -164,3 +164,4 @@ Motivos:
 
         for motivo in motivos:
             print(motivo)
+    
