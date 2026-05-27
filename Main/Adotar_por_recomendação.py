@@ -107,6 +107,8 @@ def adotar_por_recomendacao():
         return
     
     top3[pet_escolhido - 1]["pet"]["adotado"] = True
+    top3[pet_escolhido - 1]["pet"]["adotante"] = adotante["nome"]
+    
     pet_nome.append(top3[pet_escolhido - 1]["pet"]["nome"])
     adotante["pets_adotados"] = pet_nome
 
