@@ -4,6 +4,7 @@ import Banco_De_Dados
 import Recomendacao
 import Excluir_Pet
 import Editar_Dados
+import Adotar_por_recomendação
 
 
 Banco_De_Dados.carregar_pets()
@@ -24,7 +25,8 @@ while True:
 4 - Excluir Pet
 5 - Cadastrar Adotante
 6 - Recomendar Pet
-7 - Sair
+7 - Adotar Pet por Recomendação
+8 - Sair
 """)
 
 
@@ -72,8 +74,12 @@ while True:
 
         Recomendacao.recomendar_pet()
 
-
     elif opcao == "7":
+
+        Adotar_por_recomendação.adotar_por_recomendacao()
+
+
+    elif opcao == "8":
 
         print("ENCERRANDO SISTEMA...")
         break
